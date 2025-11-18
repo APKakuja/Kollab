@@ -1,4 +1,4 @@
 package com.example.kollab
 
-class StartUp {
+class Login {
 }
