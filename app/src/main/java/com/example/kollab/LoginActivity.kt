@@ -1,4 +1,5 @@
 package com.example.kollab
 
-class Login {
+class Login_activity {
+
 }
