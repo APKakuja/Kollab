@@ -1,9 +1,10 @@
 package com.example.kollab
 
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class RegisterActivity : AppCompatActivity() {
@@ -25,12 +26,47 @@ class RegisterActivity : AppCompatActivity() {
             val e = email.text.toString().trim()
             val p = password.text.toString().trim()
 
-            if (n.isEmpty() || a.isEmpty() || e.isEmpty() || p.isEmpty()) {
-                Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show()
+            // Validaciones individuales
+            if (n.isEmpty()) {
+                nombre.error = "Por favor, introduce tu nombre"
+                nombre.requestFocus()
                 return@setOnClickListener
             }
 
-            Toast.makeText(this, "Usuario registrado (simulación)", Toast.LENGTH_SHORT).show()
+            if (a.isEmpty()) {
+                apellidos.error = "Por favor, introduce tus apellidos"
+                apellidos.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (e.isEmpty()) {
+                email.error = "Por favor, introduce tu correo"
+                email.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(e).matches()) {
+                email.error = "Correo electrónico inválido"
+                email.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (p.isEmpty()) {
+                password.error = "Por favor, introduce tu contraseña"
+                password.requestFocus()
+                return@setOnClickListener
+            }
+
+            // Si todo está bien, mostramos un pop-up bonito
+            AlertDialog.Builder(this)
+                .setTitle("Registro exitoso")
+                .setMessage("¡Bienvenido $n! Tu cuenta ha sido registrada correctamente.")
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                    finish()
+                }
+                .setCancelable(false)
+                .show()
         }
     }
 }
