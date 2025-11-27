@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Kollab</string>
+    <string name="title_register">Registro</string>
+    <string name="hint_nombre">Nombre</string>
+    <string name="hint_apellidos">Apellidos</string>
+    <string name="hint_email">Correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_crear_cuenta">Crear cuenta</string>
 </resources>
