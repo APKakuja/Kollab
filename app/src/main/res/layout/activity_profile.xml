@@ -1,0 +1,87 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white"
+    tools:context=".ProfileActivity">
+
+    <!-- Foto de perfil -->
+    <ImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/victoriaserrano"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="Foto de perfil"/>
+
+    <!-- Nombre -->
+    <TextView
+        android:id="@+id/txtProfileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Victoria Serrano"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Scroll para descripción y skills -->
+    <ScrollView
+        android:id="@+id/scrollProfile"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/txtProfileDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Soy una desarrolladora apasionada por la innovación y la creación de productos digitales con impacto. Tras varios años trabajando en proyectos de software, he decidido iniciar mi propia startup tecnológica, enfocada en soluciones colaborativas para equipos distribuidos. Mi rol combina la programación con la búsqueda de talento: estoy construyendo el núcleo técnico de la plataforma y, al mismo tiempo, lidero el proceso de contratación de profesionales que se sumen a mi visión."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Skills -->
+            <TextView
+                android:id="@+id/txtProfileSkills"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="💡 Skills relevantes:\n- Desarrollo Full Stack con Kotlin y Python\n- Arquitecturas escalables con Docker y PostgreSQL\n- Integración de sistemas distribuidos con ESP32 y AWS IoT Core\n- Gestión de proyectos y liderazgo de equipos ágiles\n- Selección y contratación de talento técnico para startups\n- Pitching y networking con inversores y comunidades tecnológicas"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Botones -->
+    <Button
+        android:id="@+id/btnEditProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Editar perfil"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ajustes"/>
+
+    <Button
+        android:id="@+id/Atras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Atras"/>
+</LinearLayout>
