@@ -16,20 +16,21 @@ class LoginActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.buttonLogin)
         val registerButton = findViewById<Button>(R.id.buttonRegister)
 
+        // Listener del botón Login
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
+            // Aquí podrías validar email/contraseña si quieres
+            val intent = Intent(this, MainView::class.java)
+            startActivity(intent)
+            finish()
+        }
 
-
-            val registerButton: Button = findViewById(R.id.buttonRegister)
-
-            registerButton.setOnClickListener {
-                val intent = Intent(this, RegisterActivity::class.java)
-                startActivity(intent)
-            }
-
+        // Listener del botón Register
+        registerButton.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
-
 }

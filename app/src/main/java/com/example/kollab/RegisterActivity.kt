@@ -19,7 +19,7 @@ class RegisterActivity : AppCompatActivity() {
         btn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            finish() // opcional: cierra la pantalla de registro para que no quede en el stack
+            finish()
 
 
 
