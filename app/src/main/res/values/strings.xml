@@ -17,4 +17,9 @@
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password">Contraseña</string>
     <string name="btn_crear_cuenta">Crear cuenta</string>
+
+    <string name="title_settings">Ajustes</string>
+    <string name="btn_delete_account">Eliminar cuenta</string>
+    <string name="btn_deactivate_account">Desactivar cuenta</string>
+
 </resources>
