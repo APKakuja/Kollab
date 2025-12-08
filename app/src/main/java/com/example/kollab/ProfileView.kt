@@ -11,7 +11,7 @@ class ProfileView : AppCompatActivity() {
 
         val backButton: Button = findViewById(R.id.backButton)
         backButton.setOnClickListener {
-            finish() // vuelve a la pantalla anterior
+            finish()
         }
     }
 }

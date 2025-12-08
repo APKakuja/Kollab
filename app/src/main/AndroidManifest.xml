@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kollab">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditProfileActivity" />
+        <activity android:name=".RegisterActivity" />
+
 
 
     </application>
