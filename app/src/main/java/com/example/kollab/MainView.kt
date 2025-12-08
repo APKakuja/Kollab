@@ -1,5 +1,6 @@
 package com.example.kollab
 
+import android.view.View
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 

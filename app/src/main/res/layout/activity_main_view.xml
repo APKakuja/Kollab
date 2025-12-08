@@ -8,6 +8,22 @@
     android:background="@color/white"
     tools:context=".MainView">
 
+
+    <ImageButton
+        android:id="@+id/victoriaButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        android:contentDescription="Perfil de Victoria Serrano"
+        android:scaleType="centerCrop"
+        android:src="@drawable/victoriaserrano" />
     <!-- Imagen del candidato -->
     <ImageView
         android:id="@+id/profileImage"

@@ -21,18 +21,17 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordEditText.text.toString()
 
             //if (email.isNotEmpty() && password.isNotEmpty()) {
-                // Aquí podrías validar credenciales más adelante
-               // val intent = Intent(this, PlaceholderActivity::class.java)
-                //startActivity(intent)
-            //} else {
-             //   emailEditText.error = "Campo requerido"
-              //  passwordEditText.error = "Campo requerido"
-            }
-        }
-
-        //registerButton.setOnClickListener {
-            //val intent = Intent(this, RegisterActivity::class.java)
+            // Aquí podrías validar credenciales más adelante
+            // val intent = Intent(this, PlaceholderActivity::class.java)
             //startActivity(intent)
-        //}
+            //} else {
+            //   emailEditText.error = "Campo requerido"
+            //  passwordEditText.error = "Campo requerido"
+        }
     }
 
+    //registerButton.setOnClickListener {
+    //val intent = Intent(this, RegisterActivity::class.java)
+    //startActivity(intent)
+    //}
+}
