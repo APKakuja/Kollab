@@ -18,6 +18,18 @@
     <string name="hint_password">Contraseña</string>
     <string name="btn_crear_cuenta">Crear cuenta</string>
 
+    <string name="title_chat">Chat</string>
+    <string name="hint_escribe_mensaje">Escribe un mensaje...</string>
+    <string name="btn_enviar">Enviar</string>
+
+    <string name="hola_como_estas">Hola, ¿cómo estás?</string>
+    <string name="estoy_bien_y_tu">Estoy bien, ¿y tú?</string>
+    <string name="bien_que_haces">Bien también, ¿qué haces?</string>
+
+    <string name="chat_user_name">Maria Perez</string>
+    <string name="chat_start_message">Comienza a chatear con Maria Perez...</string>
+
+
     <string name="title_settings">Ajustes</string>
     <string name="btn_delete_account">Eliminar cuenta</string>
     <string name="btn_deactivate_account">Desactivar cuenta</string>
