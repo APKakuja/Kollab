@@ -1,5 +1,16 @@
 <resources>
     <string name="app_name">Kollab</string>
+
+    <!-- Login -->
+    <string name="introduce_tu_email">Introduce tu email</string>
+    <string name="introdueix_contrasenya">Introdueix contrasenya</string>
+    <string name="login">Login</string>
+
+    <!-- Campos -->
+    <string name="email">Email</string>
+    <string name="contraseña">Contraseña</string>
+
+    <!-- Registro -->
     <string name="title_register">Registro</string>
     <string name="hint_nombre">Nombre</string>
     <string name="hint_apellidos">Apellidos</string>
