@@ -57,7 +57,6 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Si todo está bien, mostramos un pop-up bonito
             AlertDialog.Builder(this)
                 .setTitle("Registro exitoso")
                 .setMessage("¡Bienvenido $n! Tu cuenta ha sido registrada correctamente.")

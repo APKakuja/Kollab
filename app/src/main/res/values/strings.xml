@@ -30,5 +30,8 @@
     <string name="chat_start_message">Comienza a chatear con Maria Perez...</string>
 
 
+    <string name="title_settings">Ajustes</string>
+    <string name="btn_delete_account">Eliminar cuenta</string>
+    <string name="btn_deactivate_account">Desactivar cuenta</string>
 
 </resources>
