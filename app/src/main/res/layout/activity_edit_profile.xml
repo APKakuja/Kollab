@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
+    tools:context=".EditProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Sección de foto -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
+
+            <!-- Foto de perfil -->
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/victoriaserrano"
+                android:scaleType="centerCrop"
+                android:contentDescription="Foto de perfil"/>
+
+            <!-- Icono añadir fotos -->
+            <ImageButton
+                android:id="@+id/btnAddPhoto"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/outline_add_a_photo_24"
+                android:background="@android:color/transparent"
+                android:contentDescription="Añadir foto"/>
+        </LinearLayout>
+
+        <!-- Campo editable: descripción -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descripción"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Escribe tu descripción aquí..."
+            android:gravity="top|start"
+            android:background="@android:drawable/edit_text"
+            android:padding="8dp"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Campo editable: skills -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Skills"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/editSkills"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Escribe tus skills aquí..."
+            android:gravity="top|start"
+            android:background="@android:drawable/edit_text"
+            android:padding="8dp"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Botón Atrás -->
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Atrás"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/button_text"/>
+    </LinearLayout>
+</ScrollView>
