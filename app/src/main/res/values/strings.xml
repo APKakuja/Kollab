@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Kollab</string>
+    <string name="app_logo">Logo de la aplicación Kollab</string>
+    <string name="swipe_left">flecha swipe left (like)</string>
+    <string name="swipe_right">flecha swipe right per descartar perfil</string>
+</resources>
     <string name="introduce_tu_email">Introduce tu email</string>
     <string name="introdueix_contrasenya">Introdueix contrasenya</string>
     <string name="login">Login</string>
