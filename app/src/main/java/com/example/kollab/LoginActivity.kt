@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
 
-            // Aquí podrías validar email/contraseña si quieres
             val intent = Intent(this, MainView::class.java)
             startActivity(intent)
             finish()
