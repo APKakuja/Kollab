@@ -7,13 +7,6 @@
 
     <style name="Theme.Kollab" parent="Base.Theme.Kollab" />
 
-    <style name="Theme.Kollab.SplashScreen" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_animat</item>
-        <item name="windowSplashScreenAnimationDuration">1000</item>
-        <item name="postSplashScreenTheme">@style/Theme.Kollab</item>
-    </style>
-
 
 
 </resources>

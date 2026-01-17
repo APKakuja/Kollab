@@ -1,6 +1,8 @@
 package com.example.kollab
 
+import android.widget.ImageView
 import android.content.Intent
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
