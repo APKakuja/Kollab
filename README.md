@@ -46,3 +46,5 @@ Kollab es una aplicación para **conocer y chatear con otros programadores**. Lo
 - Lenguaje: **Kotlin**  
 - UI: Android XML  
 - Listas: `RecyclerView` con `Adapter` y `ViewHolder`
+
+https://github.com/user-attachments/assets/5944e9de-5cdb-4e14-99d8-e91774ad5f0a
