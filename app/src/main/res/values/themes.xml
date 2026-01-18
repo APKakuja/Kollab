@@ -6,4 +6,14 @@
     </style>
 
     <style name="Theme.Kollab" parent="Base.Theme.Kollab" />
+    
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">
+            @color/white
+        </item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.Kollab</item>
+        <item name="android:windowSplashScreenAnimatedIcon">
+            @drawable/animated_logo
+        </item>
+    </style>
 </resources>
