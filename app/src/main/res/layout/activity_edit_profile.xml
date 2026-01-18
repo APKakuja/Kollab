@@ -13,10 +13,9 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Espaciador superior -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="50dp" /> <!-- Ajusta este valor para bajar más -->
+            android:layout_height="50dp" />
 
         <!-- Sección de foto -->
         <LinearLayout
@@ -46,7 +45,7 @@
                 android:contentDescription="@string/add_photo_desc"/>
         </LinearLayout>
 
-        <!-- Campo editable: descripción -->
+        <!-- Descripción -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +66,7 @@
             android:padding="8dp"
             android:scrollbars="vertical" />
 
-        <!-- Campo editable: skills -->
+        <!-- CSkills -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
