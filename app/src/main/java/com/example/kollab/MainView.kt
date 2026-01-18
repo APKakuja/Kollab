@@ -3,6 +3,8 @@ package com.example.kollab
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
@@ -32,6 +34,7 @@ class MainView : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_view)
+        setSupportActionBar(findViewById(R.id.mainToolbar))
 
         // Referencias a vistas
         cardPerfil = findViewById(R.id.cardPerfil)
@@ -158,4 +161,30 @@ class MainView : AppCompatActivity() {
         view.rotation = 0f
         view.alpha = 1f
     }
+
+    // Cosas del menu
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+
+            R.id.menu_chats -> {
+                val intent = Intent(this, ChatListActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+
+            R.id.menu_ajustes -> {
+                val intent = Intent(this, AjustesActivity::class.java)
+                startActivity(intent)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }
