@@ -34,4 +34,24 @@
     <string name="btn_delete_account">Eliminar cuenta</string>
     <string name="btn_deactivate_account">Desactivar cuenta</string>
 
+    <string name="profile_bio">
+        Apasionado por Kotlin y Java. Busco gente para crear proyectos, practicar entrevistas técnicas y mejorar habilidades.
+    </string>
+    <string name="connect_button">Conectar</string>
+
+    <string name="profile_image_desc">Foto de perfil</string>
+    <string name="profile_name">Victoria Serrano</string>
+    <string name="profile_role">Fundadora y Desarrolladora</string>
+    <string name="button_edit">Editar</string>
+    <string name="button_settings">Ajustes</string>
+    <string name="button_back">Atrás</string>
+    <string name="profile_description">Soy una desarrolladora apasionada por la innovación y la creación de productos digitales con impacto. Tras varios años trabajando en proyectos de software, he decidido iniciar mi propia startup tecnológica...</string>
+    <string name="profile_skills">💡 Skills:\n- Kotlin i Python\n- Docker y PostgreSQL\n- AWS IoT\n- Liderazgo ágil\n- Reclutamiento tech</string>
+    <string name="posts_title">Proyectos</string>
+    <string name="post1_desc">Mi nuevo proyecto r...</string>
+    <string name="post2_desc">Os comparto mi má...</string>
+    <string name="post3_desc">Kotlin Y Python junt...</string>
+    <string name="post4_desc">Me encanta anunc...</string>
+    <string name="post5_desc">Nuevo proyecto en...</string>
+
 </resources>
