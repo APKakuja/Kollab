@@ -64,5 +64,7 @@
     <string name="perfil_de_victoria_serrano">Perfil de Victoria Serrano</string>
     <string name="x">✘</string>
     <string name="mark">✔</string>
+    <string name="chats">Chats</string>
+    <string name="ajustes">Ajustes</string>
 
 </resources>
