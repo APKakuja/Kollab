@@ -9,4 +9,13 @@
         android:id="@+id/menu_ajustes"
         android:title="@string/ajustes" />
 
+    <item
+        android:id="@+id/menu_filtrar_genero"
+        android:title="@string/filtrar_por_g_nero" />
+
+    <item
+        android:id="@+id/menu_filtrar_puesto"
+        android:title="@string/filtrar_por_puesto" />
+
+
 </menu>

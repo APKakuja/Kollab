@@ -26,7 +26,9 @@ object PerfilData {
         5. IoT Engineer en SmartCampus Solutions (2020–2022)
         6. Software Tester en InnovApp (2016–2017)
     """.trimIndent(),
-            id = 1
+            id = 1,
+            genero = "Masculino",
+            puesto = "Programador"
         )
         ,
         Perfil(
@@ -48,7 +50,9 @@ object PerfilData {
         3. Junior Designer en PixelForge (2018–2020) – Diseño web y prototipos interactivos.
         4. Freelance Designer (2016–2018) – Identidad visual para pequeñas empresas.
     """.trimIndent(),
-            id = 2
+            id = 2,
+            genero = "Femenino",
+            puesto = "UX/UI Designer"
         ),
         Perfil(
             nombre = "Laura Gómez",
@@ -69,7 +73,9 @@ object PerfilData {
         3. SEO Specialist en WebRank Solutions (2017–2019) – Optimización de posicionamiento orgánico.
         4. Community Manager freelance (2015–2017) – Gestión de comunidades online.
     """.trimIndent(),
-            id = 3
+            id = 3,
+            genero = "Femenino",
+            puesto = "Marketing Manager"
         ),
         Perfil(
             nombre = "Barnie Rodriguez",
@@ -90,7 +96,9 @@ object PerfilData {
         3. Frontend Developer en PixelSoft (2018–2020) – Interfaces web con React.
         4. Junior Developer en DevStart (2016–2018) – Proyectos web para clientes pequeños.
     """.trimIndent(),
-            id = 4
+            id = 4,
+            genero = "Masculino",
+            puesto = "Programador"
         )
     )
 }

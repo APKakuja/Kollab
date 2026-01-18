@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.abs
 
@@ -30,13 +31,20 @@ class MainView : AppCompatActivity() {
     private lateinit var btnAceptar: ImageView
     private lateinit var btnDescartar: ImageView
 
+    // Filtros activos
+    private var filtroGenero: String? = null
+    private var filtroPuestos: List<String> = emptyList()
+
+    // Lista filtrada
+    private var perfilesFiltrados = PerfilData.perfiles
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_view)
+
         setSupportActionBar(findViewById(R.id.mainToolbar))
 
-        // Referencias a vistas
         cardPerfil = findViewById(R.id.cardPerfil)
         imgPerfil = findViewById(R.id.profileImage)
         txtNombre = findViewById(R.id.profileName)
@@ -47,7 +55,7 @@ class MainView : AppCompatActivity() {
 
         mostrarPerfil()
 
-        // Swipe sobre la tarjeta completa
+        // Swipe
         cardPerfil.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -77,30 +85,29 @@ class MainView : AppCompatActivity() {
         }
 
         val victoriaButton: ImageButton = findViewById(R.id.victoriaButton)
-
         victoriaButton.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
 
-        // Botón aceptar (✅)
-        btnAceptar.setOnClickListener {
-            animateSwipeLeft(cardPerfil)
-        }
-
-        // Botón descartar (❌)
-        btnDescartar.setOnClickListener {
-            animateSwipeRight(cardPerfil)
-        }
+        btnAceptar.setOnClickListener { animateSwipeLeft(cardPerfil) }
+        btnDescartar.setOnClickListener { animateSwipeRight(cardPerfil) }
     }
 
     private fun mostrarPerfil() {
-        if (perfilIndex >= PerfilData.perfiles.size) {
-            finish()
+
+        // Si no hay perfiles tras filtrar
+        if (perfilesFiltrados.isEmpty()) {
+            txtNombre.text = "No hay perfiles"
+            txtDescripcion.text = "Prueba otro filtro"
+            imgPerfil.setImageResource(R.drawable.ic_launcher_foreground)
             return
         }
 
-        val perfil = PerfilData.perfiles[perfilIndex]
+        if (perfilIndex >= perfilesFiltrados.size) {
+            perfilIndex = 0
+        }
+
+        val perfil = perfilesFiltrados[perfilIndex]
 
         imgPerfil.setImageResource(perfil.foto)
         txtNombre.text = perfil.nombre
@@ -112,15 +119,17 @@ class MainView : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
+//animaciones de swipe
     private fun animateSwipeLeft(view: View) {
-        val perfil = PerfilData.perfiles[perfilIndex]
+        val perfil = perfilesFiltrados[perfilIndex]
+
         ChatData.chats.add(
             Chat(
                 id = perfil.id,
                 nombre = perfil.nombre,
                 ultimaFrase = "Nuevo match!",
-                foto = perfil.foto )
+                foto = perfil.foto
+            )
         )
 
         view.animate()
@@ -152,8 +161,7 @@ class MainView : AppCompatActivity() {
     }
 
     private fun abrirChat() {
-        val intent = Intent(this, ChatListActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, ChatListActivity::class.java))
     }
 
     private fun resetView(view: View) {
@@ -162,7 +170,43 @@ class MainView : AppCompatActivity() {
         view.alpha = 1f
     }
 
-    // Cosas del menu
+    // FILTROS
+
+    private fun aplicarFiltros() {
+        var lista = PerfilData.perfiles
+
+        // Filtro de género
+        filtroGenero?.let { genero ->
+            lista = lista.filter { it.genero == genero }
+        }
+
+        // Filtro de puestos
+        if (filtroPuestos.isNotEmpty()) {
+            lista = lista.filter { filtroPuestos.contains(it.puesto) }
+        }
+
+        // Si no hay resultados se muestra aviso y reinicia la pantalla y filtros
+        if (lista.isEmpty()) {
+            AlertDialog.Builder(this)
+                .setTitle("Sin coincidencias")
+                .setMessage("No hay perfiles que coincidan con estos filtros.")
+                .setPositiveButton("Aceptar") { _, _ ->
+                    filtroGenero = null
+                    filtroPuestos = emptyList()
+                    perfilesFiltrados = PerfilData.perfiles
+                    perfilIndex = 0
+                    mostrarPerfil()
+                }
+                .show()
+            return
+        }
+
+        perfilesFiltrados = lista
+        perfilIndex = 0
+        mostrarPerfil()
+    }
+
+    // MENÚ
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -173,18 +217,51 @@ class MainView : AppCompatActivity() {
         when (item.itemId) {
 
             R.id.menu_chats -> {
-                val intent = Intent(this, ChatListActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, ChatListActivity::class.java))
                 return true
             }
 
             R.id.menu_ajustes -> {
-                val intent = Intent(this, AjustesActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, AjustesActivity::class.java))
+                return true
+            }
+
+            // FILTRO POR GÉNERO
+            R.id.menu_filtrar_genero -> {
+                val opciones = arrayOf("Masculino", "Femenino")
+
+                AlertDialog.Builder(this)
+                    .setTitle("Filtrar por género")
+                    .setItems(opciones) { _, which ->
+                        filtroGenero = opciones[which]
+                        aplicarFiltros()
+                    }
+                    .show()
+
+                return true
+            }
+
+            // FILTRO POR PUESTO (MULTI-SELECCIÓN)
+            R.id.menu_filtrar_puesto -> {
+
+                val puestos = arrayOf("Programador", "UX/UI Designer", "Marketing Manager")
+                val seleccionados = BooleanArray(puestos.size)
+
+                AlertDialog.Builder(this)
+                    .setTitle("Filtrar por puesto")
+                    .setMultiChoiceItems(puestos, seleccionados) { _, index, isChecked ->
+                        seleccionados[index] = isChecked
+                    }
+                    .setPositiveButton("Aplicar") { _, _ ->
+                        filtroPuestos = puestos.filterIndexed { index, _ -> seleccionados[index] }
+                        aplicarFiltros()
+                    }
+                    .setNegativeButton("Cancelar", null)
+                    .show()
+
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
-
 }
