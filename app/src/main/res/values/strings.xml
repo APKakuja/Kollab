@@ -53,5 +53,16 @@
     <string name="post3_desc">Kotlin Y Python junt...</string>
     <string name="post4_desc">Me encanta anunc...</string>
     <string name="post5_desc">Nuevo proyecto en...</string>
+    <string name="foto_del_perfil">foto del perfil</string>
+    <string name="fotos_de_perfil">fotos de perfil</string>
+    <string name="ver_perfil">Ver perfil ➡</string>
+    <string name="foto_de_perfil">Foto de perfil</string>
+    <string name="descartar_perfil">Descartar perfil</string>
+    <string name="aceptar_perfil">Aceptar perfil</string>
+    <string name="logo_kollab">Logo Kollab</string>
+    <string name="vesperfil">Ver perfil ➡</string>
+    <string name="perfil_de_victoria_serrano">Perfil de Victoria Serrano</string>
+    <string name="x">✘</string>
+    <string name="mark">✔</string>
 
 </resources>
