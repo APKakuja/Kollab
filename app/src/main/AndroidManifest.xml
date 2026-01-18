@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ChatListActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
         <activity android:name=".EditProfileActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
