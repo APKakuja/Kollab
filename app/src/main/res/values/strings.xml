@@ -54,4 +54,11 @@
     <string name="post4_desc">Me encanta anunc...</string>
     <string name="post5_desc">Nuevo proyecto en...</string>
 
+    <string name="profile_photo_desc">Foto de perfil</string>
+    <string name="add_photo_desc">Añadir foto</string>
+    <string name="description_label">Descripción</string>
+    <string name="description_hint">Escribe tu descripción aquí...</string>
+    <string name="skills_label">Skills</string>
+    <string name="skills_hint">Escribe tus skills aquí...</string>
+    <string name="back_button">Atrás</string>
 </resources>
