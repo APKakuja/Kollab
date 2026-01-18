@@ -43,53 +43,53 @@
 
         <!-- Campo editable: descripción -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="372dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Descripción"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editDescription"
-            android:layout_width="match_parent"
+            android:layout_width="371dp"
             android:layout_height="120dp"
-            android:hint="Escribe tu descripción aquí..."
-            android:gravity="top|start"
+            android:layout_marginBottom="24dp"
             android:background="@android:drawable/edit_text"
-            android:padding="8dp"
+            android:gravity="top|start"
+            android:hint="Escribe tu descripción aquí..."
             android:inputType="textMultiLine"
-            android:scrollbars="vertical"
-            android:layout_marginBottom="24dp"/>
+            android:padding="8dp"
+            android:scrollbars="vertical" />
 
         <!-- Campo editable: skills -->
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="372dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Skills"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editSkills"
-            android:layout_width="match_parent"
+            android:layout_width="372dp"
             android:layout_height="120dp"
-            android:hint="Escribe tus skills aquí..."
-            android:gravity="top|start"
+            android:layout_marginBottom="24dp"
             android:background="@android:drawable/edit_text"
-            android:padding="8dp"
+            android:gravity="top|start"
+            android:hint="Escribe tus skills aquí..."
             android:inputType="textMultiLine"
-            android:scrollbars="vertical"
-            android:layout_marginBottom="24dp"/>
+            android:padding="8dp"
+            android:scrollbars="vertical" />
 
         <!-- Botón Atrás -->
         <Button
             android:id="@+id/btnBack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Atrás"
+            android:layout_width="355dp"
+            android:layout_height="63dp"
             android:backgroundTint="@color/button_color"
-            android:textColor="@color/button_text"/>
+            android:text="Atrás"
+            android:textColor="@color/button_text" />
     </LinearLayout>
 </ScrollView>

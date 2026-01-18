@@ -10,23 +10,37 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Kollab">
+        android:theme="@style/Theme.App.Starting">
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainView" />
-        <activity android:name=".ProfileView" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".ChatActivity" />
-        <activity android:name=".AjustesActivity" />
+        <activity android:name=".EditProfileActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
+        <activity android:name=".RegisterActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
+        <activity android:name=".MainView"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
+        <activity android:name=".ProfileView"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
+        <activity android:name=".ProfileActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
+        <activity android:name=".ChatActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
+        <activity android:name=".AjustesActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Kollab"/>
 
 
 
