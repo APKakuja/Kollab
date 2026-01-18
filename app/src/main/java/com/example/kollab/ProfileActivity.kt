@@ -11,7 +11,6 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         val editButton: Button = findViewById(R.id.btnEditProfile)
-        val settingsButton: Button = findViewById(R.id.btnSettings)
         val backButton: Button = findViewById(R.id.btnBack)
 
         // Botón Editar Perfil
