@@ -11,7 +11,7 @@
         android:paddingEnd="16dp"
         android:paddingBottom="16dp">
 
-        <!-- Botón Atrás arriba a la izquierda -->
+        <!-- Botón Atrás  -->
         <Button
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"/>
 
-        <!-- Contenido principal debajo del botón Atrás -->
+        <!-- Contenido principal -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                         android:textColor="@color/gray"/>
                 </LinearLayout>
 
-                <!-- Botón Editar perfil alineado a la derecha -->
+                <!-- Botón Editar perfil -->
                 <Button
                     android:id="@+id/btnEditProfile"
                     android:layout_width="wrap_content"
