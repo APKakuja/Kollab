@@ -12,16 +12,23 @@ class ProfileActivity : AppCompatActivity() {
 
         val editButton: Button = findViewById(R.id.btnEditProfile)
         val settingsButton: Button = findViewById(R.id.btnSettings)
+        val backButton: Button = findViewById(R.id.btnBack)
 
+        // Botón Editar Perfil
         editButton.setOnClickListener {
-          val intent = Intent(this, EditProfileActivity::class.java)
+            val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
         }
 
+        // Botón Configuración
         //settingsButton.setOnClickListener {
-            // Aquí lanzarías tu SettingsActivity
-           // val intent = Intent(this, SettingsActivity::class.java)
-           // startActivity(intent)
+        //    val intent = Intent(this, SettingsActivity::class.java)
+        //    startActivity(intent)
         //}
+
+        // Botón Atrás
+        backButton.setOnClickListener {
+            finish()
+        }
     }
 }
