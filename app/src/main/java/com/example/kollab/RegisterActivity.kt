@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kollab.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
 
