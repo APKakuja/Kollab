@@ -21,7 +21,7 @@ class LoginViewModel : ViewModel() {
 
         // Validació de l'email
 
-        if (!emailValue.contains("@") || !emailValue.contains(".")) {
+        if (!emailValue.contains("@") || !emailValue.contains(".") || !emailValue.contains("com")) {
             emailError.value = "Email no es válid"
             valid = false
         } else {
@@ -30,7 +30,7 @@ class LoginViewModel : ViewModel() {
 
         // Validació password
         if (passValue.length < 6) {
-            passwordError.value = "La contrasenya ha de tenir un minim de 6 caracteres"
+            passwordError.value = "Contrasenya incorrecta"
             valid = false
         } else {
             passwordError.value = null
