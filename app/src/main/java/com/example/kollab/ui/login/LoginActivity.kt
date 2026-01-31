@@ -12,10 +12,28 @@ import com.example.kollab.MainView
 import com.example.kollab.R
 import com.example.kollab.RegisterActivity
 
+/**
+ * Activity que se encarga de gestionar la pantalla de inicio de sesión.
+ *
+ * Esta clase inicializa los components de la interfaz, y
+ * observa los cambios que vienen de el LoginViewModel,
+ * tamb gestiona la navegación hacia otras pantallas dependiendo del resultado del login
+ */
 class LoginActivity : AppCompatActivity() {
 
+    /**
+     * ViewModel que tiene la logica de validacion del login.
+     */
     private lateinit var vm: LoginViewModel
 
+    /**
+     * El metodo que se llama al crear la Activity.
+     * encargado de:
+     * - Instalar el SplashScreen con la animación.
+     * - Iniciar el ViewModel
+     * - Configurar los listeners de los botones.
+     * - Observa los LiveData del ViewModel para mostrar errores o navegar.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
