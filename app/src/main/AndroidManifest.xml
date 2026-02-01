@@ -26,7 +26,7 @@
         <activity android:name=".EditProfileActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
-        <activity android:name=".RegisterActivity"
+        <activity android:name=".ui.register.RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
         <activity android:name=".MainView"

@@ -10,10 +10,27 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.kollab.R
 import com.example.kollab.ui.login.LoginActivity
 
+/**
+ * Activity que gestiona la pantalla de registro de usuario.
+ *
+ * Inicializa los componentes de la interfaz, observa los LiveData del [RegisterViewModel],
+ * muestra errores y realiza la navegación hacia la pantalla de login cuando el registro es exitoso.
+ */
 class RegisterActivity : AppCompatActivity() {
 
+    /** ViewModel que contiene la lógica de validación del registro. */
     private lateinit var vm: RegisterViewModel
 
+    /**
+     * Se ejecuta al crear la Activity.
+     *
+     * Encargado de:
+     * - Inicializar el ViewModel.
+     * - Configurar listeners de los botones.
+     * - Observar los LiveData para mostrar errores y éxito de registro.
+     *
+     * @param savedInstanceState Bundle que contiene el estado guardado de la Activity.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -24,13 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         val passwordEditText = findViewById<EditText>(R.id.inputPassword)
         val registerButton = findViewById<Button>(R.id.btnRegistrar)
 
-        vm.emailError.observe(this) { error ->
-            emailEditText.error = error
-        }
-
-        vm.passwordError.observe(this) { error ->
-            passwordEditText.error = error
-        }
+        vm.emailError.observe(this) { error -> emailEditText.error = error }
+        vm.passwordError.observe(this) { error -> passwordEditText.error = error }
 
         vm.registerSuccess.observe(this) { success ->
             if (success) {
