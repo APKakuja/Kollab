@@ -10,7 +10,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.example.kollab.MainView
 import com.example.kollab.R
-import com.example.kollab.RegisterActivity
+import com.example.kollab.ui.register.RegisterActivity
 
 /**
  * Activity que se encarga de gestionar la pantalla de inicio de sesión.
