@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
  */
 
 class LoginViewModel : ViewModel() {
+
     /**
      * Email introducido por el usuario.
      */
@@ -60,7 +61,7 @@ class LoginViewModel : ViewModel() {
         }
 
         // Validació password
-        if (passValue.length < 6) {
+        if (passValue.length < 6 || passValue.length > 50) {
             passwordError.value = "Contrasenya incorrecta"
             valid = false
         } else {

@@ -37,10 +37,14 @@ class RegisterActivity : AppCompatActivity() {
 
         vm = ViewModelProvider(this).get(RegisterViewModel::class.java)
 
+        val nameEditText = findViewById<EditText>(R.id.inputNombre)
+        val surnameEditText = findViewById<EditText>(R.id.inputApellidos)
         val emailEditText = findViewById<EditText>(R.id.inputEmail)
         val passwordEditText = findViewById<EditText>(R.id.inputPassword)
         val registerButton = findViewById<Button>(R.id.btnRegistrar)
 
+        vm.nameError.observe(this) { error -> nameEditText.error = error }
+        vm.surnameError.observe(this) { error -> surnameEditText.error = error }
         vm.emailError.observe(this) { error -> emailEditText.error = error }
         vm.passwordError.observe(this) { error -> passwordEditText.error = error }
 
@@ -53,6 +57,8 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         registerButton.setOnClickListener {
+            vm.name.value = nameEditText.text.toString()
+            vm.surname.value = surnameEditText.text.toString()
             vm.email.value = emailEditText.text.toString()
             vm.password.value = passwordEditText.text.toString()
             vm.onRegisterClicked()

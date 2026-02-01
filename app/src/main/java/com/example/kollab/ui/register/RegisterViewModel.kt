@@ -6,10 +6,25 @@ import androidx.lifecycle.ViewModel
 /**
  * ViewModel que gestiona la lógica de registro de usuarios.
  *
- * Contiene LiveData para los campos de email y contraseña,
+ * Contiene LiveData para los campos de nombre,apellido,email y contraseña,
  * sus posibles errores y el estado de éxito del registro.
  */
 class RegisterViewModel : ViewModel() {
+
+    /** Expresión regular para validar solo letras en el nombre y apellido. */
+    val soloLetrasRegex = Regex("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")
+
+    /** Nombre ingresado por el usuario. */
+    val name = MutableLiveData<String>()
+
+    /** Mensaje de error del nombre, si aplica. */
+    val nameError = MutableLiveData<String>()
+
+    /** Apellido ingresado por el usuario. */
+    val surname = MutableLiveData<String>()
+
+    /** Mensaje de error del apellido, si aplica. */
+    val surnameError = MutableLiveData<String>()
 
     /** Email ingresado por el usuario. */
     val email = MutableLiveData<String>()
@@ -29,10 +44,12 @@ class RegisterViewModel : ViewModel() {
     /**
      * Se llama al hacer clic en el botón de registro.
      *
-     * Valida el email y la contraseña, actualiza los errores
+     * Valida el nombre,el apellido, el email y la contraseña, actualiza los errores
      * correspondientes y establece [registerSuccess] según la validez.
      */
     fun onRegisterClicked() {
+        val nameValue = name.value ?: ""
+        val surnValue = surname.value ?: ""
         val emailValue = email.value ?: ""
         val passValue = password.value ?: ""
 
@@ -50,6 +67,26 @@ class RegisterViewModel : ViewModel() {
             valid = false
         } else {
             passwordError.value = null
+        }
+
+        if (nameValue.isEmpty()) {
+            nameError.value = "El nombre no puede estar vacío"
+            valid = false
+        } else if (!soloLetrasRegex.matches(nameValue)){
+            nameError.value = "El nombre solo puede contener letras"
+            valid = false
+        } else {
+            nameError.value = null
+        }
+
+        if (surnValue.isEmpty()) {
+            surnameError.value = "El apellido no puede estar vacío"
+            valid = false
+        } else if (!soloLetrasRegex.matches(surnValue)){
+            surnameError.value = "El apellido solo puede contener letras"
+            valid = false
+        } else {
+            surnameError.value = null
         }
 
         registerSuccess.value = valid
