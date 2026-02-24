@@ -1,6 +1,10 @@
 package com.example.kollab
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
+import android.graphics.Typeface
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,7 +29,15 @@ class ProfileView : AppCompatActivity() {
             imgPerfil.setImageResource(perfil.foto)
             txtNombre.text = perfil.nombre
             txtDescripcion.text = perfil.descripcion
-            txtSkills.text = perfil.skills
+
+            // Construir Spannable: "Skills:" en negrita + el resto en normal
+            val title = "Skills: \n"
+            val skillsText = perfil.skills
+            val full = title + skillsText
+            val ssb = SpannableStringBuilder(full)
+            ssb.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            txtSkills.text = ssb
+
             txtExperiencia.text = perfil.experiencia
         }
 

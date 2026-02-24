@@ -5,10 +5,11 @@
 
     <ImageView
         android:id="@+id/imgPerfil"
-        android:layout_width="249dp"
-        android:layout_height="484dp"
+        android:layout_width="220dp"
+        android:layout_height="350dp"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
+        android:adjustViewBounds="false"
         android:background="@drawable/image_border" />
 
     <TextView
@@ -19,18 +20,18 @@
         android:text="Nombre"
         android:textSize="20sp"
         android:textColor="@color/primary_text"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
 
     <Button
         android:id="@+id/btnVerPerfil"
         android:layout_below="@id/txtNombre"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Ver perfil ➡"
+        android:text="@string/ver_perfil"
         android:backgroundTint="@color/button_color"
         android:textColor="@color/button_text"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
 
 </RelativeLayout>
