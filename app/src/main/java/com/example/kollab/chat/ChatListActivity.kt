@@ -2,15 +2,17 @@ package com.example.kollab.chat
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kollab.R
-import com.example.kollab.Session
 import com.example.kollab.service.RetrofitClient
 import kotlinx.coroutines.launch
+
 
 class ChatListActivity : AppCompatActivity() {
 
@@ -42,6 +44,30 @@ class ChatListActivity : AppCompatActivity() {
                                 cargarChats()
                             } catch (e: Exception) {
                                 e.printStackTrace()
+                                Toast.makeText(this@ChatListActivity, "Error al borrar el chat", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                    .setNegativeButton("Cancelar", null)
+                    .show()
+            },
+            onEditClick = { chatUI ->
+                val input = EditText(this)
+                input.hint = "Escribe un nickname"
+                input.setText(chatUI.nickname ?: "")
+
+                AlertDialog.Builder(this)
+                    .setTitle("Editar nickname de ${chatUI.nombre}")
+                    .setView(input)
+                    .setPositiveButton("Guardar") { _, _ ->
+                        val nuevoNickname = input.text.toString().trim()
+                        lifecycleScope.launch {
+                            try {
+                                RetrofitClient.api.actualizarNickname(chatUI.id, nuevoNickname)
+                                cargarChats()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                Toast.makeText(this@ChatListActivity, "Error al actualizar el nickname", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -66,7 +92,8 @@ class ChatListActivity : AppCompatActivity() {
                         id = chat.id,
                         nombre = perfil.nombre,
                         fotoUrl = perfil.fotoUrl,
-                        ultimaFrase = chat.ultimaFrase
+                        ultimaFrase = chat.ultimaFrase,
+                        nickname = chat.nickname  // ✅ pasar nickname
                     )
                 }
 
@@ -74,6 +101,7 @@ class ChatListActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                Toast.makeText(this@ChatListActivity, "Error al cargar los chats", Toast.LENGTH_SHORT).show()
             }
         }
     }

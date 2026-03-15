@@ -19,6 +19,12 @@ interface ApiService {
     @POST("chats")
     suspend fun crearChat(@Query("perfilId") perfilId: Int)
 
+    @PUT("chats/{id}/nickname")
+    suspend fun actualizarNickname(
+        @Path("id") id: Int,
+        @Query("nickname") nickname: String
+    )
+
     @GET("chats/{id}")
     suspend fun getChat(@Path("id") id: Int): ChatDTO  // ✅ por id
 

@@ -69,5 +69,9 @@
     <string name="filtrar_por_g_nero">Filtrar por género</string>
     <string name="filtrar_por_puesto">Filtrar por puesto</string>
     <string name="experiencias_previas">Experiencias previas</string>
+    <string name="nombre_del_chat">Nombre del chat</string>
+    <string name="ltimo_mensaje">Último mensaje...</string>
+    <string name="editar_nickname">Editar nickname</string>
+    <string name="imagen_del_chat">Imagen del chat</string>
 
 </resources>

@@ -5,6 +5,7 @@ fun ChatDTO.toChat(): Chat {
         id = id,
         perfilId = perfilId,
         ultimaFrase = ultimaFrase,
-        fechaUltimoMensaje = ""  // ignorar la fecha por ahora
+        fechaUltimoMensaje = "",
+        nickname = nickname
     )
 }

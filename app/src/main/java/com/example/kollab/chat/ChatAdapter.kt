@@ -9,7 +9,8 @@ import com.example.kollab.R
 class ChatAdapter(
     private var chats: List<ChatUI>,
     private val onClick: (ChatUI) -> Unit,
-    private val onLongClick: (ChatUI) -> Unit
+    private val onLongClick: (ChatUI) -> Unit,
+    private val onEditClick: (ChatUI) -> Unit  // ✅ nuevo
 ) : RecyclerView.Adapter<ChatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -26,14 +27,16 @@ class ChatAdapter(
             .placeholder(R.drawable.ic_launcher_foreground)
             .into(holder.foto)
 
-        holder.nombre.text = chat.nombre
-        holder.ultimaFrase.text = chat.ultimaFrase
-
-        holder.itemView.setOnClickListener { onClick(chat) }
-        holder.itemView.setOnLongClickListener {
-            onLongClick(chat)
-            true
+        holder.nombre.text = if (!chat.nickname.isNullOrEmpty()) {
+            "${chat.nombre} - ${chat.nickname}"
+        } else {
+            chat.nombre
         }
+
+        holder.ultimaFrase.text = chat.ultimaFrase
+        holder.itemView.setOnClickListener { onClick(chat) }
+        holder.itemView.setOnLongClickListener { onLongClick(chat); true }
+        holder.btnEditar.setOnClickListener { onEditClick(chat) }  // ✅ nuevo
     }
 
     override fun getItemCount(): Int = chats.size
