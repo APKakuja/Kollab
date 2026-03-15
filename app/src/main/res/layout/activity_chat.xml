@@ -4,35 +4,39 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- HEADER DEL CHAT -->
+
+    <!-- CONTENEDOR DEL CHAT (AQUÍ IRÁ EL RECYCLERVIEW DE MENSAJES) -->
     <LinearLayout
         android:id="@+id/chat_header"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:padding="16dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="80dp"
         android:background="@color/white"
-        android:elevation="4dp"
+        android:elevation="40dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="15dp">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
+        <!-- FOTO DEL PERFIL DEL CHAT (DINÁMICA) -->
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/profile_placeholder"
-            android:scaleType="centerCrop"
+            android:background="@drawable/circle_background"
             android:contentDescription="@string/app_logo"
-            android:background="@drawable/circle_background"/>
+            android:scaleType="centerCrop" />
 
+        <!-- NOMBRE DEL PERFIL DEL CHAT (DINÁMICO) -->
         <TextView
             android:id="@+id/chat_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@string/chat_user_name"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -48,14 +52,22 @@
             android:id="@+id/chat_start_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/chat_start_message"
             android:textColor="@color/hint_text"
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:paddingTop="32dp"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chatRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingTop="8dp"/>
+
     </LinearLayout>
 
+
+    <!-- INPUT PARA ESCRIBIR MENSAJES -->
     <LinearLayout
         android:id="@+id/chat_input_container"
         android:layout_width="match_parent"
@@ -70,12 +82,11 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:autofillHints=""
             android:hint="@string/hint_escribe_mensaje"
             android:padding="12dp"
             android:textColor="@color/black"
             android:textColorHint="@color/hint_text"
-            android:background="@color/white"/>
+            android:background="@color/white" />
 
         <ImageView
             android:id="@+id/send_button"
@@ -83,7 +94,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/send"
-            android:contentDescription="@string/btn_enviar"/>
+            android:contentDescription="@string/btn_enviar" />
     </LinearLayout>
 
 </RelativeLayout>

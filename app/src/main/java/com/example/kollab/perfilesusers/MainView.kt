@@ -1,4 +1,4 @@
-package com.example.kollab
+package com.example.kollab.perfilesusers
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,9 +11,21 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.example.kollab.AjustesActivity
+import com.example.kollab.R
+import com.example.kollab.chat.ChatListActivity
+import com.example.kollab.service.RetrofitClient
+import kotlinx.coroutines.launch
 import kotlin.math.abs
+import com.example.kollab.perfilesusers.toPerfil
+import com.example.kollab.ProfileActivity
+import com.example.kollab.chat.ChatDTO
+import com.example.kollab.perfilesusers.ProfileView
 
 class MainView : AppCompatActivity() {
 
@@ -31,12 +43,11 @@ class MainView : AppCompatActivity() {
     private lateinit var btnAceptar: ImageView
     private lateinit var btnDescartar: ImageView
 
-    // Filtros activos
     private var filtroGenero: String? = null
     private var filtroPuestos: List<String> = emptyList()
 
-    // Lista filtrada
-    private var perfilesFiltrados = PerfilData.perfiles
+    private var perfilesAPI: List<Perfil> = emptyList()
+    private var perfilesFiltrados: List<Perfil> = emptyList()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +64,19 @@ class MainView : AppCompatActivity() {
         btnAceptar = findViewById(R.id.btnAceptar)
         btnDescartar = findViewById(R.id.btnDescartar)
 
-        mostrarPerfil()
+        lifecycleScope.launch {
+            try {
+                val perfilesDTO = RetrofitClient.api.getPerfiles()
+                perfilesAPI = perfilesDTO.map { it.toPerfil() }
+                perfilesFiltrados = perfilesAPI
+                mostrarPerfil()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                txtNombre.text = "Error de conexión"
+                txtDescripcion.text = "No se pudieron cargar los perfiles"
+            }
+        }
 
-        // Swipe
         cardPerfil.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
@@ -95,7 +116,6 @@ class MainView : AppCompatActivity() {
 
     private fun mostrarPerfil() {
 
-        // Si no hay perfiles tras filtrar
         if (perfilesFiltrados.isEmpty()) {
             txtNombre.text = "No hay perfiles"
             txtDescripcion.text = "Prueba otro filtro"
@@ -109,7 +129,11 @@ class MainView : AppCompatActivity() {
 
         val perfil = perfilesFiltrados[perfilIndex]
 
-        imgPerfil.setImageResource(perfil.foto)
+        Glide.with(this)
+            .load(perfil.fotoUrl)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .into(imgPerfil)
+
         txtNombre.text = perfil.nombre
         txtDescripcion.text = perfil.descripcion
 
@@ -119,18 +143,24 @@ class MainView : AppCompatActivity() {
             startActivity(intent)
         }
     }
-//animaciones de swipe
+
     private fun animateSwipeLeft(view: View) {
         val perfil = perfilesFiltrados[perfilIndex]
 
-        ChatData.chats.add(
-            Chat(
-                id = perfil.id,
-                nombre = perfil.nombre,
-                ultimaFrase = "Nuevo match!",
-                foto = perfil.foto
-            )
-        )
+        // Lanzar la llamada de red y abrir el chat SOLO cuando el servidor confirme que se creó
+        lifecycleScope.launch {
+            try {
+                RetrofitClient.api.crearChat(perfil.id)
+                abrirChat() // ← se ejecuta después de que el servidor responda con éxito
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(
+                    this@MainView,
+                    "Error al crear el chat: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
         view.animate()
             .translationX(-1000f)
@@ -138,7 +168,7 @@ class MainView : AppCompatActivity() {
             .alpha(0f)
             .setDuration(300)
             .withEndAction {
-                abrirChat()
+                // abrirChat() ya no va aquí para evitar la race condition
                 perfilIndex++
                 resetView(view)
                 mostrarPerfil()
@@ -170,22 +200,17 @@ class MainView : AppCompatActivity() {
         view.alpha = 1f
     }
 
-    // FILTROS
-
     private fun aplicarFiltros() {
-        var lista = PerfilData.perfiles
+        var lista = perfilesAPI
 
-        // Filtro de género
         filtroGenero?.let { genero ->
             lista = lista.filter { it.genero == genero }
         }
 
-        // Filtro de puestos
         if (filtroPuestos.isNotEmpty()) {
             lista = lista.filter { filtroPuestos.contains(it.puesto) }
         }
 
-        // Si no hay resultados se muestra aviso y reinicia la pantalla y filtros
         if (lista.isEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Sin coincidencias")
@@ -193,7 +218,7 @@ class MainView : AppCompatActivity() {
                 .setPositiveButton("Aceptar") { _, _ ->
                     filtroGenero = null
                     filtroPuestos = emptyList()
-                    perfilesFiltrados = PerfilData.perfiles
+                    perfilesFiltrados = perfilesAPI
                     perfilIndex = 0
                     mostrarPerfil()
                 }
@@ -205,8 +230,6 @@ class MainView : AppCompatActivity() {
         perfilIndex = 0
         mostrarPerfil()
     }
-
-    // MENÚ
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -226,7 +249,6 @@ class MainView : AppCompatActivity() {
                 return true
             }
 
-            // FILTRO POR GÉNERO
             R.id.menu_filtrar_genero -> {
                 val opciones = arrayOf("Masculino", "Femenino")
 
@@ -241,7 +263,6 @@ class MainView : AppCompatActivity() {
                 return true
             }
 
-            // FILTRO POR PUESTO (MULTI-SELECCIÓN)
             R.id.menu_filtrar_puesto -> {
 
                 val puestos = arrayOf("Programador", "UX/UI Designer", "Marketing Manager")

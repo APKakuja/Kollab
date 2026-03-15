@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
-import com.example.kollab.MainView
+import com.example.kollab.perfilesusers.MainView
 import com.example.kollab.R
 import com.example.kollab.ui.register.RegisterActivity
 

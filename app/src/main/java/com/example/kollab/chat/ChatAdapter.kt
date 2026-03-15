@@ -1,15 +1,15 @@
-package com.example.kollab
+package com.example.kollab.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kollab.Chat
+import com.bumptech.glide.Glide
 import com.example.kollab.R
-import com.example.kollab.holders.ChatViewHolder
 
 class ChatAdapter(
-    private var chats: List<Chat>,
-    private val onClick: (Chat) -> Unit
+    private var chats: List<ChatUI>,
+    private val onClick: (ChatUI) -> Unit,
+    private val onLongClick: (ChatUI) -> Unit
 ) : RecyclerView.Adapter<ChatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -21,16 +21,24 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chats[position]
 
-        holder.foto.setImageResource(chat.foto)
+        Glide.with(holder.itemView.context)
+            .load(chat.fotoUrl)
+            .placeholder(R.drawable.ic_launcher_foreground)
+            .into(holder.foto)
+
         holder.nombre.text = chat.nombre
         holder.ultimaFrase.text = chat.ultimaFrase
 
         holder.itemView.setOnClickListener { onClick(chat) }
+        holder.itemView.setOnLongClickListener {
+            onLongClick(chat)
+            true
+        }
     }
 
     override fun getItemCount(): Int = chats.size
 
-    fun actualizarLista(nuevaLista: List<Chat>) {
+    fun actualizarLista(nuevaLista: List<ChatUI>) {
         chats = nuevaLista
         notifyDataSetChanged()
     }
