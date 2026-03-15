@@ -13,7 +13,7 @@ class ProfileActivity : AppCompatActivity() {
         val editButton: Button = findViewById(R.id.btnEditProfile)
         val backButton: Button = findViewById(R.id.btnBack)
 
-        // Botón Editar Perfil
+        // Botón Editar com.example.kollab.perfilesusers.Perfil
         editButton.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)

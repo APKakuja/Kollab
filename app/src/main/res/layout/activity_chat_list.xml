@@ -10,12 +10,12 @@
         android:id="@+id/chatListTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chats"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="80dp"
+        android:text="Chats"
+        android:textColor="@android:color/black"
+        android:textSize="26sp"
+        android:textStyle="bold" />
 
     <!-- LISTA DE CHATS -->
     <androidx.recyclerview.widget.RecyclerView

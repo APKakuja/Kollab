@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChatListActivity"
+        <activity android:name=".chat.ChatListActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
         <activity android:name=".EditProfileActivity"
@@ -29,16 +30,16 @@
         <activity android:name=".ui.register.RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
-        <activity android:name=".MainView"
+        <activity android:name=".perfilesusers.MainView"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
-        <activity android:name=".ProfileView"
+        <activity android:name=".perfilesusers.ProfileView"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
         <activity android:name=".ProfileActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
-        <activity android:name=".ChatActivity"
+        <activity android:name=".chat.ChatActivity"
             android:exported="true"
             android:theme="@style/Theme.Kollab"/>
         <activity android:name=".AjustesActivity"

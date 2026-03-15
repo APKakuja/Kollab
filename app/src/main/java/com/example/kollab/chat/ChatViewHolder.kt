@@ -1,4 +1,4 @@
-package com.example.kollab.holders
+package com.example.kollab.chat
 
 import android.view.View
 import android.widget.ImageView
