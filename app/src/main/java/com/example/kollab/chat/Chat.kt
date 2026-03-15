@@ -5,6 +5,7 @@ data class Chat(
     val perfilId: Int,
     val ultimaFrase: String,
     val fechaUltimoMensaje: String,
+    val nickname: String? = null,
     val mensajes: MutableList<Mensaje> = mutableListOf()
 )
 

@@ -1,6 +1,7 @@
 package com.example.kollab.chat
 
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -10,4 +11,5 @@ class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val foto: ImageView = view.findViewById(R.id.chatFoto)
     val nombre: TextView = view.findViewById(R.id.chatNombre)
     val ultimaFrase: TextView = view.findViewById(R.id.chatUltimaFrase)
+    val btnEditar: ImageButton = view.findViewById(R.id.btnEditarChat)
 }
