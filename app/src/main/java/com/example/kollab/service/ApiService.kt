@@ -26,7 +26,7 @@ interface ApiService {
     )
 
     @GET("chats/{id}")
-    suspend fun getChat(@Path("id") id: Int): ChatDTO  // ✅ por id
+    suspend fun getChat(@Path("id") id: Int): ChatDTO
 
     @GET("chats/{id}/mensajes")
     suspend fun getMensajes(@Path("id") chatId: Int): List<MensajeDTO>
