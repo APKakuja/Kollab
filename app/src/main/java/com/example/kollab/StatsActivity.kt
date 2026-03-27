@@ -17,6 +17,9 @@ class StatsActivity : AppCompatActivity() {
     private lateinit var barChart: BarChart
     private lateinit var pieChart: PieChart
     private lateinit var statsDataStore: StatsDataStore
+    private lateinit var txtTiempoUso: android.widget.TextView
+    private lateinit var txtEnergia: android.widget.TextView
+    private lateinit var txtCo2: android.widget.TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +29,40 @@ class StatsActivity : AppCompatActivity() {
 
         barChart = findViewById(R.id.barChart)
         pieChart = findViewById(R.id.pieChart)
+        txtTiempoUso = findTextViewByName("txtTiempoUso")
+        txtEnergia = findTextViewByName("txtEnergia")
+        txtCo2 = findTextViewByName("txtCo2")
 
         lifecycleScope.launch {
             val chats = statsDataStore.visitasChats.first()
             val ajustes = statsDataStore.visitasAjustes.first()
+            val tiempoUsoMs = statsDataStore.tiempoUsoMs.first()
 
             configurarBarChart(chats, ajustes)
             configurarPieChart(chats, ajustes)
+            mostrarIndicadoresAmbientales(tiempoUsoMs, chats, ajustes)
         }
+    }
+
+    private fun findTextViewByName(idName: String): android.widget.TextView {
+        val id = resources.getIdentifier(idName, "id", packageName)
+        require(id != 0) { "No existe el id $idName en activity_stats.xml" }
+        return findViewById(id)
+    }
+
+    private fun mostrarIndicadoresAmbientales(tiempoUsoMs: Long, chats: Int, ajustes: Int) {
+        val horasUso = tiempoUsoMs / 3_600_000.0
+        val interaccionesPonderadas = chats + (ajustes * 0.4)
+
+        // Energia base por tiempo activo + pequeño coste por interacciones de menu.
+        val energiaKWhTiempo = (horasUso * StatsDataStore.POTENCIA_MEDIA_W) / 1000.0
+        val energiaKWhInteracciones = interaccionesPonderadas * 0.00005
+        val energiaKWhTotal = energiaKWhTiempo + energiaKWhInteracciones
+        val co2Kg = energiaKWhTotal * StatsDataStore.FACTOR_CO2_KG_POR_KWH
+
+        txtTiempoUso.text = getString(R.string.stats_tiempo_uso_format, horasUso)
+        txtEnergia.text = getString(R.string.stats_energia_format, energiaKWhTotal)
+        txtCo2.text = getString(R.string.stats_co2_format, co2Kg)
     }
 
     private fun configurarBarChart(chats: Int, ajustes: Int) {

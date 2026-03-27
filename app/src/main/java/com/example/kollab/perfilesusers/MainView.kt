@@ -38,6 +38,7 @@ class MainView : AppCompatActivity() {
     private var perfilesFiltrados: List<Perfil> = emptyList()
 
     private lateinit var statsDataStore: StatsDataStore
+    private var sessionStartMs: Long? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,9 +48,8 @@ class MainView : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.mainToolbar))
 
         statsDataStore = StatsDataStore(this)
-
         lifecycleScope.launch {
-            statsDataStore.loadFromFirestore()
+            statsDataStore.initializeNewAppSessionIfNeeded()
         }
 
         cardPerfil = findViewById(R.id.cardPerfil)
@@ -170,6 +170,23 @@ class MainView : AppCompatActivity() {
         view.translationX = 0f
         view.rotation = 0f
         view.alpha = 1f
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sessionStartMs = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val inicio = sessionStartMs ?: return
+        val duracionMs = System.currentTimeMillis() - inicio
+        sessionStartMs = null
+
+        lifecycleScope.launch {
+            statsDataStore.addTiempoUsoMs(duracionMs)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

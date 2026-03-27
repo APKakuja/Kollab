@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.kollab" />
+                  <option name="mobileSdkAppId" value="1:1099182806659:android:8e5fc20425254c48b8adb6" />
+                  <option name="projectId" value="kollab-f3e32" />
+                  <option name="projectNumber" value="1099182806659" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

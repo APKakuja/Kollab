@@ -6,7 +6,32 @@
     android:padding="16dp">
 
     <TextView
-        android:text="Visites per secció"
+        android:id="@+id/txtTiempoUso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/stats_tiempo_uso_default"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtEnergia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/stats_energia_default"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/txtCo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/stats_co2_default"
+        android:textSize="15sp" />
+
+    <TextView
+        android:text="@string/stats_visitas_por_seccion"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
@@ -20,7 +45,7 @@
         android:layout_marginBottom="24dp"/>
 
     <TextView
-        android:text="Proporció d'ús"
+        android:text="@string/stats_proporcion_uso"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
