@@ -10,18 +10,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kollab.R
+import com.example.kollab.StatsDataStore
 import com.example.kollab.service.RetrofitClient
 import kotlinx.coroutines.launch
-
 
 class ChatListActivity : AppCompatActivity() {
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: ChatAdapter
+    private lateinit var statsDataStore: StatsDataStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_list)
+
+        statsDataStore = StatsDataStore(this)
 
         recycler = findViewById(R.id.chatRecycler)
         recycler.layoutManager = LinearLayoutManager(this)
@@ -44,7 +47,11 @@ class ChatListActivity : AppCompatActivity() {
                                 cargarChats()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                Toast.makeText(this@ChatListActivity, "Error al borrar el chat", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@ChatListActivity,
+                                    "Error al borrar el chat",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
@@ -67,7 +74,11 @@ class ChatListActivity : AppCompatActivity() {
                                 cargarChats()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                Toast.makeText(this@ChatListActivity, "Error al actualizar el nickname", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@ChatListActivity,
+                                    "Error al actualizar el nickname",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
@@ -78,6 +89,15 @@ class ChatListActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
         cargarChats()
+    }
+
+    // 🔥 AQUÍ SE CUENTA BIEN
+    override fun onResume() {
+        super.onResume()
+
+        lifecycleScope.launch {
+            statsDataStore.incrementChats()
+        }
     }
 
     private fun cargarChats() {
@@ -93,7 +113,7 @@ class ChatListActivity : AppCompatActivity() {
                         nombre = perfil.nombre,
                         fotoUrl = perfil.fotoUrl,
                         ultimaFrase = chat.ultimaFrase,
-                        nickname = chat.nickname  // ✅ pasar nickname
+                        nickname = chat.nickname
                     )
                 }
 
@@ -101,7 +121,11 @@ class ChatListActivity : AppCompatActivity() {
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this@ChatListActivity, "Error al cargar los chats", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@ChatListActivity,
+                    "Error al cargar los chats",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

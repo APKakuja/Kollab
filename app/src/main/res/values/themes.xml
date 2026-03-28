@@ -1,19 +1,23 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Kollab" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!-- 🎨 Tema base (COMPATIBLE con AppCompatActivity) -->
+    <style name="Base.Theme.Kollab" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Personaliza colores si quieres -->
     </style>
 
+    <!-- 🎯 Tema principal de la app -->
     <style name="Theme.Kollab" parent="Base.Theme.Kollab" />
-    
+
+    <!-- 🚀 Splash Screen (CORREGIDO) -->
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">
-            @color/white
-        </item>
-        <item name="postSplashScreenTheme">@style/Base.Theme.Kollab</item>
-        <item name="android:windowSplashScreenAnimatedIcon">
-            @drawable/animated_logo
-        </item>
+
+        <item name="windowSplashScreenBackground">@color/white</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.Kollab</item>
+
+        <!-- ⚠️ ICONO: asegúrate que exista -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/animated_logo</item>
+
     </style>
+
 </resources>

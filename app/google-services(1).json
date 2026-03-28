@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1099182806659",
+    "project_id": "kollab-f3e32",
+    "storage_bucket": "kollab-f3e32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099182806659:android:8e5fc20425254c48b8adb6",
+        "android_client_info": {
+          "package_name": "com.example.kollab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM8_kiMb_n7GIiikrok6EKOZqFs7M8ZbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

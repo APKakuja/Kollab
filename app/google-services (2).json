@@ -1,0 +1,48 @@
+  {
+  "project_info": {
+    "project_number": "163563916960",
+    "project_id": "rolldice-b4dde",
+    "storage_bucket": "rolldice-b4dde.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163563916960:android:3a4ce9748f944a46ff03c5",
+        "android_client_info": {
+          "package_name": "cat.dfdocencia.rollingdiceclean"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC08au-aOaK9qgSAnELeRDpZecBrVcfaZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163563916960:android:965f7e11a051bfa8ff03c5",
+        "android_client_info": {
+          "package_name": "com.example.fbrollingdice2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC08au-aOaK9qgSAnELeRDpZecBrVcfaZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

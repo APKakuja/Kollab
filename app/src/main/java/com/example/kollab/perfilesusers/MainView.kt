@@ -3,29 +3,17 @@ package com.example.kollab.perfilesusers
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.example.kollab.AjustesActivity
-import com.example.kollab.R
+import com.example.kollab.*
 import com.example.kollab.chat.ChatListActivity
 import com.example.kollab.service.RetrofitClient
 import kotlinx.coroutines.launch
 import kotlin.math.abs
-import com.example.kollab.perfilesusers.toPerfil
-import com.example.kollab.ProfileActivity
-import com.example.kollab.chat.ChatDTO
-import com.example.kollab.perfilesusers.ProfileView
 
 class MainView : AppCompatActivity() {
 
@@ -49,12 +37,20 @@ class MainView : AppCompatActivity() {
     private var perfilesAPI: List<Perfil> = emptyList()
     private var perfilesFiltrados: List<Perfil> = emptyList()
 
+    private lateinit var statsDataStore: StatsDataStore
+    private var sessionStartMs: Long? = null
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_view)
 
         setSupportActionBar(findViewById(R.id.mainToolbar))
+
+        statsDataStore = StatsDataStore(this)
+        lifecycleScope.launch {
+            statsDataStore.initializeNewAppSessionIfNeeded()
+        }
 
         cardPerfil = findViewById(R.id.cardPerfil)
         imgPerfil = findViewById(R.id.profileImage)
@@ -71,7 +67,6 @@ class MainView : AppCompatActivity() {
                 perfilesFiltrados = perfilesAPI
                 mostrarPerfil()
             } catch (e: Exception) {
-                e.printStackTrace()
                 txtNombre.text = "Error de conexión"
                 txtDescripcion.text = "No se pudieron cargar los perfiles"
             }
@@ -97,7 +92,7 @@ class MainView : AppCompatActivity() {
                         if (deltaX < 0) animateSwipeLeft(view)
                         else animateSwipeRight(view)
                     } else {
-                        resetView(view)
+                        resetCardView(view)
                     }
                     true
                 }
@@ -105,8 +100,7 @@ class MainView : AppCompatActivity() {
             }
         }
 
-        val victoriaButton: ImageButton = findViewById(R.id.victoriaButton)
-        victoriaButton.setOnClickListener {
+        findViewById<ImageButton>(R.id.victoriaButton).setOnClickListener {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 
@@ -115,24 +109,17 @@ class MainView : AppCompatActivity() {
     }
 
     private fun mostrarPerfil() {
-
         if (perfilesFiltrados.isEmpty()) {
             txtNombre.text = "No hay perfiles"
             txtDescripcion.text = "Prueba otro filtro"
-            imgPerfil.setImageResource(R.drawable.ic_launcher_foreground)
             return
         }
 
-        if (perfilIndex >= perfilesFiltrados.size) {
-            perfilIndex = 0
-        }
+        if (perfilIndex >= perfilesFiltrados.size) perfilIndex = 0
 
         val perfil = perfilesFiltrados[perfilIndex]
 
-        Glide.with(this)
-            .load(perfil.fotoUrl)
-            .placeholder(R.drawable.ic_launcher_foreground)
-            .into(imgPerfil)
+        Glide.with(this).load(perfil.fotoUrl).into(imgPerfil)
 
         txtNombre.text = perfil.nombre
         txtDescripcion.text = perfil.descripcion
@@ -147,31 +134,20 @@ class MainView : AppCompatActivity() {
     private fun animateSwipeLeft(view: View) {
         val perfil = perfilesFiltrados[perfilIndex]
 
-        // Lanzar la llamada de red y abrir el chat SOLO cuando el servidor confirme que se creó
-        lifecycleScope.launch {
-            try {
-                RetrofitClient.api.crearChat(perfil.id)
-                abrirChat() // ← se ejecuta después de que el servidor responda con éxito
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(
-                    this@MainView,
-                    "Error al crear el chat: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
         view.animate()
             .translationX(-1000f)
             .rotation(-30f)
             .alpha(0f)
             .setDuration(300)
             .withEndAction {
-                // abrirChat() ya no va aquí para evitar la race condition
                 perfilIndex++
-                resetView(view)
+                resetCardView(view)
                 mostrarPerfil()
+
+                lifecycleScope.launch {
+                    RetrofitClient.api.crearChat(perfil.id)
+                    startActivity(Intent(this@MainView, ChatListActivity::class.java))
+                }
             }
             .start()
     }
@@ -184,51 +160,33 @@ class MainView : AppCompatActivity() {
             .setDuration(300)
             .withEndAction {
                 perfilIndex++
-                resetView(view)
+                resetCardView(view)
                 mostrarPerfil()
             }
             .start()
     }
 
-    private fun abrirChat() {
-        startActivity(Intent(this, ChatListActivity::class.java))
-    }
-
-    private fun resetView(view: View) {
+    private fun resetCardView(view: View) {
         view.translationX = 0f
         view.rotation = 0f
         view.alpha = 1f
     }
 
-    private fun aplicarFiltros() {
-        var lista = perfilesAPI
+    override fun onResume() {
+        super.onResume()
+        sessionStartMs = System.currentTimeMillis()
+    }
 
-        filtroGenero?.let { genero ->
-            lista = lista.filter { it.genero == genero }
+    override fun onPause() {
+        super.onPause()
+
+        val inicio = sessionStartMs ?: return
+        val duracionMs = System.currentTimeMillis() - inicio
+        sessionStartMs = null
+
+        lifecycleScope.launch {
+            statsDataStore.addTiempoUsoMs(duracionMs)
         }
-
-        if (filtroPuestos.isNotEmpty()) {
-            lista = lista.filter { filtroPuestos.contains(it.puesto) }
-        }
-
-        if (lista.isEmpty()) {
-            AlertDialog.Builder(this)
-                .setTitle("Sin coincidencias")
-                .setMessage("No hay perfiles que coincidan con estos filtros.")
-                .setPositiveButton("Aceptar") { _, _ ->
-                    filtroGenero = null
-                    filtroPuestos = emptyList()
-                    perfilesFiltrados = perfilesAPI
-                    perfilIndex = 0
-                    mostrarPerfil()
-                }
-                .show()
-            return
-        }
-
-        perfilesFiltrados = lista
-        perfilIndex = 0
-        mostrarPerfil()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -249,37 +207,8 @@ class MainView : AppCompatActivity() {
                 return true
             }
 
-            R.id.menu_filtrar_genero -> {
-                val opciones = arrayOf("Masculino", "Femenino")
-
-                AlertDialog.Builder(this)
-                    .setTitle("Filtrar por género")
-                    .setItems(opciones) { _, which ->
-                        filtroGenero = opciones[which]
-                        aplicarFiltros()
-                    }
-                    .show()
-
-                return true
-            }
-
-            R.id.menu_filtrar_puesto -> {
-
-                val puestos = arrayOf("Programador", "UX/UI Designer", "Marketing Manager")
-                val seleccionados = BooleanArray(puestos.size)
-
-                AlertDialog.Builder(this)
-                    .setTitle("Filtrar por puesto")
-                    .setMultiChoiceItems(puestos, seleccionados) { _, index, isChecked ->
-                        seleccionados[index] = isChecked
-                    }
-                    .setPositiveButton("Aplicar") { _, _ ->
-                        filtroPuestos = puestos.filterIndexed { index, _ -> seleccionados[index] }
-                        aplicarFiltros()
-                    }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
-
+            R.id.menu_estadisticas -> {
+                startActivity(Intent(this, StatsActivity::class.java))
                 return true
             }
         }
