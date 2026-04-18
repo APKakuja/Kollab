@@ -33,6 +33,36 @@
     <string name="title_settings">Ajustes</string>
     <string name="btn_delete_account">Eliminar cuenta</string>
     <string name="btn_deactivate_account">Desactivar cuenta</string>
+    <string name="voice_settings_title">Reconocimiento de voz</string>
+    <string name="voice_settings_switch">Activar voz</string>
+    <string name="menu_voz">Voz</string>
+    <string name="voice_prompt">Di chats, ajustes o estadísticas</string>
+    <string name="voice_debug_default">Pulsa Voz y di: chats, ajustes o estadísticas</string>
+    <string name="voice_listening">Escuchando...</string>
+    <string name="voice_not_enabled">La voz está desactivada en ajustes</string>
+    <string name="voice_not_supported">Este dispositivo no soporta reconocimiento de voz</string>
+    <string name="voice_permission_required">Necesito permiso de micrófono para escuchar</string>
+    <string name="voice_recognizer_busy">El reconocimiento está ocupado. Inténtalo de nuevo.</string>
+    <string name="voice_try_again">No se pudo completar el reconocimiento. Prueba otra vez.</string>
+    <string name="voice_heard_format">He oído: %1$s</string>
+    <string name="voice_error_code_format">Error de voz: %1$d</string>
+    <string name="voice_results_format">Resultados: %1$s</string>
+    <string name="voice_error_language_unavailable">El idioma de voz no está disponible en este dispositivo.</string>
+    <string name="voice_retry_with_device_language">Reintentando con el idioma del dispositivo...</string>
+    <string name="voice_error_no_match">No se ha reconocido ninguna orden.</string>
+    <string name="voice_error_no_audio">No me está llegando audio. Habla un poco más cerca del micro.</string>
+    <string name="voice_error_timeout">Se acabó el tiempo de escucha.</string>
+    <string name="voice_no_results">No han llegado resultados de voz.</string>
+    <string name="voice_command_not_recognized">No he entendido la orden</string>
+    <string name="voice_connection_error_title">Error de conexión</string>
+    <string name="voice_connection_error_message">No se pudieron cargar los perfiles</string>
+    <string name="no_profiles_title">No hay perfiles</string>
+    <string name="no_profiles_message">Prueba otro filtro</string>
+    <string name="voice_opening_chats">Abriendo chats</string>
+    <string name="voice_opening_settings">Abriendo ajustes</string>
+    <string name="voice_opening_stats">Abriendo estadísticas</string>
+    <string name="voice_help_message">Puedes decir chats, ajustes o estadísticas</string>
+    <string name="voice_main_options_message">Opciones disponibles: chats, ajustes y estadísticas. Puedes decir abrir chats, abrir ajustes o ver estadísticas.</string>
 
     <string name="profile_bio">
         Apasionado por Kotlin y Java. Busco gente para crear proyectos, practicar entrevistas técnicas y mejorar habilidades.
