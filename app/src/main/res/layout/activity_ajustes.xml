@@ -36,4 +36,24 @@
         android:backgroundTint="#FFA500"
         android:textColor="@color/white"
         android:layout_below="@id/btn_delete_account"/>
+
+    <TextView
+        android:id="@+id/voice_settings_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/voice_settings_title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_below="@id/btn_deactivate_account"
+        android:layout_marginTop="28dp" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_voice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/voice_settings_switch"
+        android:layout_below="@id/voice_settings_label"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/black" />
 </RelativeLayout>

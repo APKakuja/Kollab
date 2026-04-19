@@ -2,6 +2,7 @@ package com.example.kollab
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -23,6 +24,7 @@ class StatsDataStore(private val context: Context) {
         val VISITAS_CHATS = intPreferencesKey("visitas_chats")
         val VISITAS_AJUSTES = intPreferencesKey("visitas_ajustes")
         val TIEMPO_USO_MS = longPreferencesKey("tiempo_uso_ms")
+        val VOICE_ENABLED = booleanPreferencesKey("voice_enabled")
         private val SESSION_LOCK = Any()
         @Volatile private var sessionInitialized = false
 
@@ -58,6 +60,9 @@ class StatsDataStore(private val context: Context) {
     val tiempoUsoMs: Flow<Long> = context.dataStore.data
         .map { prefs -> prefs[TIEMPO_USO_MS] ?: 0L }
 
+    val voiceEnabled: Flow<Boolean> = context.dataStore.data
+        .map { prefs -> prefs[VOICE_ENABLED] ?: false }
+
     suspend fun incrementChats() {
         context.dataStore.edit { prefs ->
             prefs[VISITAS_CHATS] = (prefs[VISITAS_CHATS] ?: 0) + 1
@@ -79,6 +84,12 @@ class StatsDataStore(private val context: Context) {
             prefs[TIEMPO_USO_MS] = (prefs[TIEMPO_USO_MS] ?: 0L) + ms
         }
         guardarEnFirestore()
+    }
+
+    suspend fun setVoiceEnabled(enabled: Boolean) {
+        context.dataStore.edit { prefs ->
+            prefs[VOICE_ENABLED] = enabled
+        }
     }
 
     private suspend fun guardarEnFirestore() {
