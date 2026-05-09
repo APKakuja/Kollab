@@ -16,6 +16,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.example.kollab.*
 import com.example.kollab.chat.ChatListActivity
@@ -55,9 +56,8 @@ class MainView : AppCompatActivity() {
     private var listeningToast: Toast? = null
     private var listeningToastShown = false
     private var isListening = false
+    private var isStartingListening = false
     private var hasVoiceInput = false
-    private var useFallbackRecognitionLocale = false
-    private var preferOfflineRecognition = true
     private var ttsReady = false
     private var pendingSpeechMessage: String? = null
     private var mainOptionsAnnounced = false
@@ -175,6 +175,7 @@ class MainView : AppCompatActivity() {
             setRecognitionListener(object : RecognitionListener {
                 override fun onReadyForSpeech(params: Bundle?) {
                     isListening = true
+                    isStartingListening = false
                     hasVoiceInput = false
                     if (!listeningToastShown) {
                         listeningToast = Toast.makeText(this@MainView, R.string.voice_listening, Toast.LENGTH_SHORT)
@@ -193,6 +194,7 @@ class MainView : AppCompatActivity() {
                 override fun onBufferReceived(buffer: ByteArray?) = Unit
                 override fun onEndOfSpeech() {
                     isListening = false
+                    isStartingListening = false
                     listeningToast?.cancel()
                     listeningToast = null
                     listeningToastShown = false
@@ -213,21 +215,10 @@ class MainView : AppCompatActivity() {
 
                 override fun onError(error: Int) {
                     isListening = false
+                    isStartingListening = false
                     listeningToast?.cancel()
                     listeningToast = null
                     listeningToastShown = false
-
-                    if (error == SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE && !useFallbackRecognitionLocale) {
-                        useFallbackRecognitionLocale = true
-                        preferOfflineRecognition = false
-                        val retryMessage = getString(R.string.voice_retry_with_device_language)
-                        setVoiceDebug(retryMessage)
-                        Toast.makeText(this@MainView, retryMessage, Toast.LENGTH_SHORT).show()
-                        voiceHandler.postDelayed({
-                            speechRecognizer?.startListening(recognitionIntent())
-                        }, 250)
-                        return
-                    }
 
                     val message = when (error) {
                         SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE,
@@ -246,6 +237,7 @@ class MainView : AppCompatActivity() {
 
                 override fun onResults(results: Bundle?) {
                     isListening = false
+                    isStartingListening = false
                     listeningToast?.cancel()
                     listeningToast = null
                     listeningToastShown = false
@@ -253,32 +245,50 @@ class MainView : AppCompatActivity() {
                     val recognized = results
                         ?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                         .orEmpty()
+                    android.util.Log.d("VOICE", "RESULTS: ${recognized.joinToString()}")
 
                     if (recognized.isNotEmpty()) {
-                        setVoiceDebug(getString(R.string.voice_results_format, recognized.joinToString(" | ")))
+                        setVoiceDebug("RESULTS: ${recognized.joinToString(" | ")}")
                     } else {
                         setVoiceDebug(getString(R.string.voice_no_results))
                     }
 
                     processVoiceCandidates(recognized)
+                    Log.e("VOICE_DEBUG", "RESULTS SIZE: ${recognized.size}")
+                    recognized.forEach {
+                        Log.e("VOICE_DEBUG", "-> $it")
+                    }
                 }
             })
         }
     }
 
     private fun recognitionIntent(): Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-        val locale = if (useFallbackRecognitionLocale) Locale.getDefault() else Locale.forLanguageTag("es-ES")
-
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        putExtra(RecognizerIntent.EXTRA_LANGUAGE, locale.toLanguageTag())
-        putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, locale.toLanguageTag())
+
         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5)
         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-        putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, preferOfflineRecognition)
-        putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 1800L)
-        putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 1800L)
-        putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
+
+        putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 3000L)
+        putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3000L)
+
         putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.voice_prompt))
+    }
+
+    private fun scheduleListeningStart(delayMs: Long) {
+        if (isStartingListening) return
+        isStartingListening = true
+
+        voiceHandler.postDelayed({
+            try {
+                speechRecognizer?.startListening(recognitionIntent())
+            } catch (_: Exception) {
+                isStartingListening = false
+                isListening = false
+                setVoiceDebug(getString(R.string.voice_error_code_format, SpeechRecognizer.ERROR_CLIENT))
+                Toast.makeText(this, getString(R.string.voice_error_code_format, SpeechRecognizer.ERROR_CLIENT), Toast.LENGTH_SHORT).show()
+            }
+        }, delayMs)
     }
 
     private fun iniciarAsistenteDeVoz() {
@@ -295,22 +305,18 @@ class MainView : AppCompatActivity() {
         }
 
         configurarSpeechRecognizer()
-        useFallbackRecognitionLocale = false
-        preferOfflineRecognition = true
         textToSpeech?.stop()
         pendingSpeechMessage = null
         setVoiceDebug(getString(R.string.voice_prompt))
         Toast.makeText(this, R.string.voice_prompt, Toast.LENGTH_SHORT).show()
 
-        if (isListening) {
+        if (isListening || isStartingListening) {
             speechRecognizer?.cancel()
-            voiceHandler.postDelayed({
-                speechRecognizer?.startListening(recognitionIntent())
-            }, 350)
+            isListening = false
+            isStartingListening = false
+            scheduleListeningStart(700)
         } else {
-            voiceHandler.postDelayed({
-                speechRecognizer?.startListening(recognitionIntent())
-            }, 200)
+            scheduleListeningStart(250)
         }
     }
 
@@ -321,9 +327,11 @@ class MainView : AppCompatActivity() {
         }
 
         val rawTop = candidates.first()
+
+        android.util.Log.d("VOICE", "RAW TOP: $rawTop")
+
         if (rawTop.isNotBlank()) {
-            setVoiceDebug(getString(R.string.voice_heard_format, rawTop))
-            Toast.makeText(this, getString(R.string.voice_heard_format, rawTop), Toast.LENGTH_SHORT).show()
+            setVoiceDebug("RAW: $rawTop")
         }
 
         val matched = candidates.any { candidate ->
@@ -331,8 +339,8 @@ class MainView : AppCompatActivity() {
         }
 
         if (!matched) {
-            setVoiceDebug(getString(R.string.voice_command_not_recognized))
-            Toast.makeText(this, getString(R.string.voice_command_not_recognized), Toast.LENGTH_SHORT).show()
+            setVoiceDebug("❌ No match para: ${candidates.joinToString()}")
+            Toast.makeText(this, R.string.voice_command_not_recognized, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -343,35 +351,48 @@ class MainView : AppCompatActivity() {
     private fun processVoiceCommand(rawCommand: String): Boolean {
         val command = normalizeCommand(rawCommand)
 
-        when {
-            containsAny(command, listOf("chat", "chats", "conversacion", "conversaciones", "mensajes", "chatlist")) -> {
-                speakAndNavigate(getString(R.string.voice_opening_chats)) {
-                    startActivity(Intent(this, ChatListActivity::class.java))
-                }
-                return true
-            }
+        android.util.Log.d("VOICE", "NORMALIZED: $command")
+        setVoiceDebug("RAW: $rawCommand\nCMD: $command")
 
-            containsAny(command, listOf("ajust", "ajustes", "configur", "configuracion", "config", "preferencia", "preferencias")) -> {
-                speakAndNavigate(getString(R.string.voice_opening_settings)) {
-                    startActivity(Intent(this, AjustesActivity::class.java))
-                }
-                return true
-            }
-
-            containsAny(command, listOf("estad", "estadistica", "estadisticas", "grafico", "graficos", "reporte", "reportes")) -> {
-                speakAndNavigate(getString(R.string.voice_opening_stats)) {
-                    startActivity(Intent(this, StatsActivity::class.java))
-                }
-                return true
-            }
-
-            containsAny(command, listOf("ayuda", "menu", "opcion", "opciones", "que puedo decir", "ayudame", "ayudar")) -> {
-                speak(getString(R.string.voice_help_message))
-                return true
-            }
+        if (command.contains("a")) {
+            Toast.makeText(this, "DEBUG: detecta algo", Toast.LENGTH_SHORT).show()
         }
 
-        return false
+        return when {
+
+            command.contains("chat") ||
+                    command.contains("mensaje") -> {
+                speakAndNavigate("Abriendo chats") {
+                    startActivity(Intent(this, ChatListActivity::class.java))
+                }
+                true
+            }
+
+            command.contains("ajust") ||
+                    command.contains("config") -> {
+                speakAndNavigate("Abriendo ajustes") {
+                    startActivity(Intent(this, AjustesActivity::class.java))
+                }
+                true
+            }
+
+            command.contains("estad") ||
+                    command.contains("graf") ||
+                    command.contains("reporte") -> {
+                speakAndNavigate("Abriendo estadísticas") {
+                    startActivity(Intent(this, StatsActivity::class.java))
+                }
+                true
+            }
+
+            command.contains("ayuda") ||
+                    command.contains("opcion") -> {
+                speak("Puedes decir: abrir chats, ajustes o estadísticas")
+                true
+            }
+
+            else -> false
+        }
     }
 
     private fun speakAndNavigate(message: String, action: () -> Unit) {
@@ -402,7 +423,9 @@ class MainView : AppCompatActivity() {
     }
 
     private fun containsAny(command: String, keywords: List<String>): Boolean {
-        return keywords.any { keyword -> command.contains(keyword) }
+        return keywords.any { keyword ->
+            command.contains(keyword, ignoreCase = true)
+        }
     }
 
     private fun normalizeCommand(input: String): String {
