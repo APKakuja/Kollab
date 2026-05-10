@@ -41,12 +41,14 @@ class RegisterActivity : AppCompatActivity() {
         val surnameEditText = findViewById<EditText>(R.id.inputApellidos)
         val emailEditText = findViewById<EditText>(R.id.inputEmail)
         val passwordEditText = findViewById<EditText>(R.id.inputPassword)
+        val confirmPasswordEditText = findViewById<EditText>(R.id.inputConfirmPassword)
         val registerButton = findViewById<Button>(R.id.btnRegistrar)
 
         vm.nameError.observe(this) { error -> nameEditText.error = error }
         vm.surnameError.observe(this) { error -> surnameEditText.error = error }
         vm.emailError.observe(this) { error -> emailEditText.error = error }
         vm.passwordError.observe(this) { error -> passwordEditText.error = error }
+        vm.confirmPasswordError.observe(this) { error -> confirmPasswordEditText.error = error }
 
         vm.registerSuccess.observe(this) { success ->
             if (success) {
@@ -61,6 +63,7 @@ class RegisterActivity : AppCompatActivity() {
             vm.surname.value = surnameEditText.text.toString()
             vm.email.value = emailEditText.text.toString()
             vm.password.value = passwordEditText.text.toString()
+            vm.confirmPassword.value = confirmPasswordEditText.text.toString()
             vm.onRegisterClicked()
         }
     }

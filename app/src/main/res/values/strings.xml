@@ -16,6 +16,7 @@
     <string name="hint_apellidos">Apellidos</string>
     <string name="hint_email">Correo electrónico</string>
     <string name="hint_password">Contraseña</string>
+    <string name="hint_confirm_password">Confirmar contraseña</string>
     <string name="btn_crear_cuenta">Crear cuenta</string>
 
     <string name="title_chat">Chat</string>

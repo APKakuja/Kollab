@@ -10,10 +10,6 @@ import androidx.lifecycle.ViewModel
  * sus posibles errores y el estado de éxito del registro.
  */
 class RegisterViewModel : ViewModel() {
-
-    /** Expresión regular para validar solo letras en el nombre y apellido. */
-    val soloLetrasRegex = Regex("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$")
-
     /** Nombre ingresado por el usuario. */
     val name = MutableLiveData<String>()
 
@@ -32,11 +28,17 @@ class RegisterViewModel : ViewModel() {
     /** Contraseña ingresada por el usuario. */
     val password = MutableLiveData<String>()
 
+    /** Confirmación de la contraseña ingresada por el usuario. */
+    val confirmPassword = MutableLiveData<String>()
+
     /** Mensaje de error del email, si aplica. */
     val emailError = MutableLiveData<String?>()
 
     /** Mensaje de error de la contraseña, si aplica. */
     val passwordError = MutableLiveData<String?>()
+
+    /** Mensaje de error de la confirmación de contraseña, si aplica. */
+    val confirmPasswordError = MutableLiveData<String?>()
 
     /** Indica si el registro fue exitoso. */
     val registerSuccess = MutableLiveData<Boolean>()
@@ -52,43 +54,22 @@ class RegisterViewModel : ViewModel() {
         val surnValue = surname.value ?: ""
         val emailValue = email.value ?: ""
         val passValue = password.value ?: ""
+        val confirmPasswordValue = confirmPassword.value ?: ""
 
-        var valid = true
+        val result = RegisterFormValidator.validate(
+            name = nameValue,
+            surname = surnValue,
+            email = emailValue,
+            password = passValue,
+            confirmPassword = confirmPasswordValue,
+        )
 
-        if (!emailValue.contains("@") || !emailValue.contains(".") || !emailValue.contains("com")) {
-            emailError.value = "Email no es válido"
-            valid = false
-        } else {
-            emailError.value = null
-        }
+        nameError.value = result.nameError
+        surnameError.value = result.surnameError
+        emailError.value = result.emailError
+        passwordError.value = result.passwordError
+        confirmPasswordError.value = result.confirmPasswordError
 
-        if (passValue.length < 6) {
-            passwordError.value = "La contraseña debe tener mínimo 6 caracteres"
-            valid = false
-        } else {
-            passwordError.value = null
-        }
-
-        if (nameValue.isEmpty()) {
-            nameError.value = "El nombre no puede estar vacío"
-            valid = false
-        } else if (!soloLetrasRegex.matches(nameValue)){
-            nameError.value = "El nombre solo puede contener letras"
-            valid = false
-        } else {
-            nameError.value = null
-        }
-
-        if (surnValue.isEmpty()) {
-            surnameError.value = "El apellido no puede estar vacío"
-            valid = false
-        } else if (!soloLetrasRegex.matches(surnValue)){
-            surnameError.value = "El apellido solo puede contener letras"
-            valid = false
-        } else {
-            surnameError.value = null
-        }
-
-        registerSuccess.value = valid
+        registerSuccess.value = result.isValid
     }
 }
